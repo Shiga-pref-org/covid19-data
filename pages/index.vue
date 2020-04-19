@@ -12,6 +12,7 @@
       <consults-number-card />
       <tests-number-card />
       <querents-number-card />
+      <general-querents-number-card />
       <line-invitation-card />
     </v-row>
   </div>
@@ -27,10 +28,11 @@ import Data from '@/data/data.json'
 import News from '@/data/news.json'
 
 import ConfirmedCasesNumberCard from '@/components/cards/ConfirmedCasesNumberCard.vue'
-import ConsultsNumberCard from '@/components/cards/ConsultsNumberCard'
 import ConfirmedCasesAttributesCard from '@/components/cards/ConfirmedCasesAttributesCard.vue'
+import ConsultsNumberCard from '@/components/cards/ConsultsNumberCard'
 import TestsNumberCard from '@/components/cards/TestsNumberCard'
 import QuerentsNumberCard from '@/components/cards/QuerentsNumberCard'
+import GeneralQuerentsNumberCard from '@/components/cards/GeneralQuerentsNumberCard'
 import LineInvitationCard from '@/components/cards/LineInvitationCard'
 
 export default {
@@ -42,6 +44,7 @@ export default {
     ConsultsNumberCard,
     TestsNumberCard,
     QuerentsNumberCard,
+    GeneralQuerentsNumberCard,
     LineInvitationCard
   },
   data() {

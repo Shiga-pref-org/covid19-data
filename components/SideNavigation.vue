@@ -158,12 +158,6 @@ export default {
             'https://www.pref.shiga.lg.jp/ippan/kenkouiryouhukushi/yakuzi/310410.html'
         },
         {
-          title: this.$t(
-            'LINE公式アカウント「滋賀県-新型コロナ対策パーソナルサポート」'
-          ),
-          link: 'https://www.pref.shiga.lg.jp/ippan/kurashi/ict/310749.html'
-        },
-        {
           title: this.$t('当サイトについて'),
           link: this.localePath('/about')
         },

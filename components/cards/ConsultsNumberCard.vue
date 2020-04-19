@@ -3,7 +3,7 @@
     <time-bar-chart
       :title="$t('帰国者・接触者専門外来受診件数')"
       :title-id="'number-of-consultation'"
-      :chart-id="'time-bar-chart-consulation'"
+      :chart-id="'time-bar-chart-number-of-consulation'"
       :chart-data="consultsGraph"
       :date="Data.consults.date"
       :unit="$t('件')"
@@ -21,6 +21,7 @@
 </i18n>
 
 <script>
+import moment from 'moment'
 import Data from '@/data/data.json'
 import formatGraph from '@/utils/formatGraph'
 import TimeBarChart from '@/components/TimeBarChart.vue'
@@ -37,6 +38,8 @@ export default {
       Data,
       consultsGraph
     }
+    // 更新頻度が少ないデータは最終更新日の表示に留める
+    data.Data.consults.date = moment(Data.querents.date).format('YYYY/MM/DD')
     return data
   }
 }

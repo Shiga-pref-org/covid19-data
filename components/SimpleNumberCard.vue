@@ -17,8 +17,7 @@
 
 <style lang="scss" scoped>
 .SimpleNumberCard {
-  ::v-deep svg,
-  ::v-deep h3 {
+  ::v-deep .DataView-Title {
     width: 100%;
   }
   .SimpleNumberDataContainer {
