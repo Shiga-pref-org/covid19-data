@@ -86,15 +86,14 @@ const consultsPromise = new Promise(resolve => {
         '-' +
         ('00' + arr[1]).slice(-2) +
         '-' +
-        ('00' + arr[2]).slice(-2) +
-        'T08:00:00.000Z'
+        ('00' + arr[2]).slice(-2)
 
       e['小計'] = Number(e['小計']) // 型を変えておかないと+演算子が連結と解釈される
     })
 
     const consults = {}
     consults.data = res
-    consults.date = moment().format('YYYY\\/MM\\/DD HH:mm')
+    consults.date = moment(res[res.length - 1]['日付']).format('YYYY\\/MM\\/DD')
 
     data.consults = consults
     resolve()
@@ -121,15 +120,14 @@ const testsPromise = new Promise(resolve => {
         '-' +
         ('00' + arr[1]).slice(-2) +
         '-' +
-        ('00' + arr[2]).slice(-2) +
-        'T08:00:00.000Z'
+        ('00' + arr[2]).slice(-2)
 
       e['小計'] = Number(e['小計']) // 型を変えておかないと+演算子が連結と解釈される
     })
 
     const tests = {}
     tests.data = res
-    tests.date = moment().format('YYYY\\/MM\\/DD HH:mm')
+    tests.date = moment(res[res.length - 1]['日付']).format('YYYY\\/MM\\/DD')
 
     data.tests = tests
     resolve()
@@ -155,8 +153,7 @@ const querentsPromise = new Promise(resolve => {
         '-' +
         ('00' + arr[1]).slice(-2) +
         '-' +
-        ('00' + arr[2]).slice(-2) +
-        'T08:00:00.000Z'
+        ('00' + arr[2]).slice(-2)
 
       const filelds = [
         '大津保健所',
@@ -179,12 +176,59 @@ const querentsPromise = new Promise(resolve => {
 
     const querents = {}
     querents.data = res
-    const earlierDate = Math.min(
-      new Date(),
-      new Date(res[res.length - 1]['日付'])
-    )
-    querents.date = moment(earlierDate).format('YYYY\\/MM\\/DD HH:mm')
+    querents.date = moment(res[res.length - 1]['日付']).format('YYYY\\/MM\\/DD')
     data.querents = querents
+    resolve()
+  })
+})
+
+const generalQuerentsCSVUrl =
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vQkSimAq6YKVyhqHy7wyEvL6-TeGmiNntRhP3iK5041mD900GYcjUKylMZIAJEIZzew9pCGfQ1AA-Ge/pub?gid=514731663&single=true&output=csv'
+const generalQuerentsPromise = new Promise(resolve => {
+  getCSV(generalQuerentsCSVUrl).then(res => {
+    let i = 0
+    for (i = 0; i < res.length; i++) {
+      if (res[i]['本庁'] === '') {
+        break
+      }
+    }
+
+    res.splice(i, res.length - 1)
+
+    res.forEach(e => {
+      const arr = e['日付'].split('/')
+      e['日付'] =
+        arr[0] +
+        '-' +
+        ('00' + arr[1]).slice(-2) +
+        '-' +
+        ('00' + arr[2]).slice(-2)
+
+      const filelds = [
+        '大津保健所',
+        '草津保健所',
+        '甲賀保健所',
+        '東近江保健所',
+        '彦根保健所',
+        '長浜保健所',
+        '高島保健所',
+        '本庁'
+      ]
+      let sum = 0
+      filelds.forEach(f => {
+        e[f] = Number(e[f]) // 型を変えておかないと+演算子が連結と解釈される
+        sum += e[f]
+      })
+
+      e['小計'] = sum
+    })
+
+    const generalQuerents = {}
+    generalQuerents.data = res
+    generalQuerents.date = moment(res[res.length - 1]['日付']).format(
+      'YYYY\\/MM\\/DD'
+    )
+    data.generalQuerents = generalQuerents
     resolve()
   })
 })
@@ -217,6 +261,7 @@ Promise.all([
   consultsPromise,
   testsPromise,
   querentsPromise,
+  generalQuerentsPromise,
   othersPromise
 ]).then(() => {
   data.lastUpdate = moment().format('YYYY\\/MM\\/DD HH:mm')
