@@ -1,7 +1,7 @@
 <template>
   <v-col cols="12" md="6" class="DataCard">
     <time-bar-chart
-      :title="$t('一般相談 相談件数')"
+      :title="$t('新型コロナウイルスに関する一般相談件数')"
       :title-id="'number-of-general-querents'"
       :chart-id="'time-bar-chart-number-of-general-querents'"
       :chart-data="generalQuerentsGraph"
@@ -14,7 +14,7 @@
 <i18n>
 {
   "ja": {
-    "一般相談 相談件数": "一般相談 相談件数",
+    "新型コロナウイルスに関する一般相談件数": "新型コロナウイルスに関する一般相談件数",
     "件": "件"
   }
 }
@@ -30,7 +30,7 @@ export default {
     TimeBarChart
   },
   data() {
-    // 一般相談 相談数グラフ
+    // 新型コロナウイルスに関する一般相談件数
     const generalQuerentsGraph = formatGraph(Data.generalQuerents.data)
 
     const data = {
