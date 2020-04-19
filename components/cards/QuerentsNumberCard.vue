@@ -21,7 +21,6 @@
 </i18n>
 
 <script>
-import moment from 'moment'
 import Data from '@/data/data.json'
 import formatGraph from '@/utils/formatGraph'
 import TimeBarChart from '@/components/TimeBarChart.vue'
@@ -38,8 +37,6 @@ export default {
       Data,
       querentsGraph
     }
-    // 更新頻度が少ないデータは最終更新日の表示に留める
-    data.Data.querents.date = moment(Data.querents.date).format('YYYY/MM/DD')
     return data
   }
 }
