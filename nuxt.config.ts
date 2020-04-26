@@ -246,6 +246,7 @@ const config: Configuration = {
         '/cards/number-of-consultation',
         '/cards/number-of-tested',
         '/cards/number-of-querents',
+        '/cards/ohashi-trafic',
         '/cards/line-invitation'
         // '/cards/details-of-confirmed-cases',
         // '/cards/number-of-reports-to-covid19-telephone-advisory-center',
