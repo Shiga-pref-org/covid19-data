@@ -1,7 +1,7 @@
 <template>
   <v-col cols="12" md="6" class="DataCard">
     <ohashi-trafic-bar-chart
-      :title="$t('琵琶湖大橋有料道路通行台数')"
+      :title="$t('琵琶湖大橋有料道路通行台数 対前年 同曜日比較')"
       :title-id="'ohashi-trafic'"
       :chart-id="'ohashi-trafic-bar-chart'"
       :chart-data="ohashiGraph"
@@ -25,6 +25,7 @@ export default {
   data() {
     // ohashiGraph ツールチップ title文字列
     // this.$t を使うため ohashiGraphOption の外側へ
+    // TODO: 系列を判別して表示したい
     const ohashiGraphTooltipTitle = (tooltipItems, _) => {
       const label = tooltipItems[0].label
       return this.$t('日付: {duration}', {

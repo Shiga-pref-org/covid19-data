@@ -17,9 +17,15 @@
       />
     </template>
 
-    <ul v-if="dataKind === 'transition'">
-      <li class="ohashi-note">
-        {{ $t('※赤色の指標は土日の通行台数を示します') }}
+    <ul>
+      <li v-if="dataKind == 'transition'" class="ohashi-note">
+        {{ $t('赤色の指標は土日の通行台数を示します') }}
+      </li>
+      <li v-if="dataKind == 'transition'" class="ohashi-note">
+        {{ $t('日付は2020年を基準にして両年の同じ曜日を示しています') }}
+      </li>
+      <li v-if="dataKind == 'average'" class="ohashi-note">
+        {{ $t('※値は過去7日間の通行台数の平均を示します') }}
       </li>
     </ul>
   </data-view>
@@ -30,6 +36,9 @@
 <style lang="scss">
 .ohashi-note {
   list-style: none;
+  &::before {
+    content: '※';
+  }
   font-size: 12px;
   color: rgb(128, 128, 128);
 }
