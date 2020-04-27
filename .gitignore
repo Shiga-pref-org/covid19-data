@@ -98,3 +98,4 @@ ogp/*
 # Data
 data/*
 !data/README.md
+!data/ohashi.json
