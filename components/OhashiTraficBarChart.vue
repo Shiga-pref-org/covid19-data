@@ -17,7 +17,7 @@
       />
     </template>
 
-    <ul v-if="this.dataKind === 'transition'">
+    <ul v-if="dataKind === 'transition'">
       <li class="ohashi-note">
         {{ $t('※赤色の指標は土日の通行台数を示します') }}
       </li>

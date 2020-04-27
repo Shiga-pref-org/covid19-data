@@ -341,8 +341,6 @@ const ohashiPromise = new Promise(resolve => {
       return prev
     }, {})
 
-    console.log(averageYearMap)
-
     const averageDatasets = Object.keys(averageYearMap)
       .map(nthDayOfTheYear => {
         const mapData = averageYearMap[nthDayOfTheYear]
