@@ -1,7 +1,7 @@
 <template>
   <v-col cols="12" md="6" class="DataCard">
     <ohashi-trafic-bar-chart
-      :title="$t('琵琶湖大橋通行台数')"
+      :title="$t('琵琶湖大橋有料道路通行台数')"
       :title-id="'ohashi-trafic'"
       :chart-id="'ohashi-trafic-bar-chart'"
       :chart-data="ohashiGraph"
@@ -23,49 +23,40 @@ export default {
     OhashiTraficBarChart
   },
   data() {
-    const { transition, average } = OhashiData
-
     // ohashiGraph ツールチップ title文字列
     // this.$t を使うため ohashiGraphOption の外側へ
     const ohashiGraphTooltipTitle = (tooltipItems, _) => {
       const label = tooltipItems[0].label
       return this.$t('日付: {duration}', {
-        // duration = label = '2月10日~14日' | '2月17日~21日' | '2月25日~28日'
         duration: this.$t(label)
       })
     }
     // ohashiGraph ツールチップ label文字列
     // this.$t を使うため ohashiGraphOption の外側へ
     const ohashiGraphTooltipLabel = (tooltipItem, data) => {
-      if (tooltipItem.datasetIndex === 0) {
-        const currentData = data.datasets[0]
-        return this.$t('{duration}の通行台数: {trafic}台', {
-          duration: this.$t('昨年'),
-          trafic: currentData.data[tooltipItem.index]
-        })
-      } else {
-        const currentData = data.datasets[1]
-        const pastData = data.datasets[0]
-        const percentage = Math.round(
-          (100 * currentData.data[tooltipItem.index]) /
-            pastData.data[tooltipItem.index]
-        )
-        return this.$t('{duration}の通行台数との相対値: {percentage}%', {
-          duration: this.$t('昨年'),
-          percentage
-        })
-      }
+      const currentData = data.datasets[tooltipItem.datasetIndex]
+      return this.$t('通行台数: {trafic}台', {
+        trafic: currentData.data[tooltipItem.index].toLocaleString()
+      })
     }
 
     const data = {
       Data,
-      ohashiGraph: {
-        transition,
-        average
-      },
+      ohashiGraph: OhashiData,
       ohashiGraphOption: {
         responsive: true,
-        legend: false,
+        legend: {
+          display: true,
+          onHover: e => {
+            e.currentTarget.style.cursor = 'pointer'
+          },
+          onLeave: e => {
+            e.currentTarget.style.cursor = 'default'
+          },
+          labels: {
+            boxWidth: 20
+          }
+        },
         scales: {
           xAxes: [
             {

@@ -16,12 +16,23 @@
         :unit="displayInfo.unit"
       />
     </template>
+
+    <ul v-if="this.dataKind === 'transition'">
+      <li class="ohashi-note">
+        {{ $t('※赤色の指標は土日の通行台数を示します') }}
+      </li>
+    </ul>
   </data-view>
 </template>
 
 <i18n src="./OhashiTraficBarChart.i18n.json"></i18n>
 
 <style lang="scss">
+.ohashi-note {
+  list-style: none;
+  font-size: 12px;
+  color: rgb(128, 128, 128);
+}
 .OhashiGraph {
   &-Desc {
     margin-top: 10px;
@@ -33,34 +44,10 @@
 </style>
 
 <script>
-// import moment from 'moment'
+import moment from 'moment'
 import DataView from '@/components/DataView.vue'
 import DataSelector2 from '@/components/DataSelector2.vue'
 import DataViewBasicInfoPanel from '@/components/DataViewBasicInfoPanel.vue'
-
-// const determineColor = (yearIndex, year, month, date) => {
-//   const day = moment()
-//     .year(year)
-//     .month(month - 1)
-//     .date(date)
-//     .day()
-//   // 日曜日 day = 0
-//   // 土曜日 day = 6
-//   // console.log(
-//   //   moment()
-//   //     .year(year)
-//   //     .month(month - 1)
-//   //     .date(date)
-//   //     .format('YYYY-MM-DD ddd')
-//   // )
-//   const colors = {
-//     sunday: ['#f0c0e2', '#f030b9'],
-//     satuarday: ['#c0e2f0', '#30b9f0'],
-//     weekday: ['#d9d9d9', '#8f8f8f']
-//   }
-//   const dayKey = day === 0 ? 'sunday' : day === 6 ? 'sunday' : 'satuarday'
-//   return colors[dayKey][yearIndex]
-// }
 
 export default {
   components: { DataView, DataSelector2, DataViewBasicInfoPanel },
@@ -102,6 +89,7 @@ export default {
   computed: {
     displayInfo() {
       if (this.dataKind !== 'transition' && this.dataKind !== 'average') {
+        // invalid data case
         return {
           lText: '',
           sText: '',
@@ -112,8 +100,11 @@ export default {
         const lastData = datasets[datasets.length - 1]
 
         return {
-          lText: lastData.data[0],
-          sText: lastData.label,
+          lText: lastData.data[0].toLocaleString(),
+          sText: this.$t('{date} 前年の同時期との比較: {percent}%', {
+            date: lastData.label,
+            percent: Math.round((100 * lastData.data[1]) / lastData.data[0])
+          }),
           unit: this.$t('台')
         }
       }
@@ -133,14 +124,35 @@ export default {
             return {
               label,
               data: datasets.map(d => d.data[i]),
-              backgroundColor: ({ dataIndex, datasetIndex }) => {
-                console.log(dataIndex, datasetIndex)
-                return '#121212'
-                // const year = labels[dataIndex]
-                // const [month, date] = dataset.label
-                //   .split('/')
-                //   .map(x => parseInt(x, 10))
-                // return determineColor(datasetIndex, year, month, date)
+              backgroundColor: ({
+                dataIndex,
+                datasetIndex,
+                dataset: { label: year }
+              }) => {
+                let isWeekend = false
+                try {
+                  const [month, date] = datasets[dataIndex].label
+                    .split('/')
+                    .map(x => parseInt(x, 10))
+                  const day = moment()
+                    .year(year)
+                    .month(month - 1)
+                    .date(date)
+                    // 2019 vs 2020 の曜日のズレ
+                    .add(datasetIndex === 0 ? 2 : 0, 'days')
+                    .day()
+                  isWeekend = day === 0 || day === 6
+                } catch (err) {
+                  // stand for Chart Update
+                }
+                const weekendColors = ['#f0c0e2', '#f030b9']
+                const weekdayColors = ['#c0e2f0', '#30b9f0']
+
+                if (this.dataKind === 'transition' && isWeekend) {
+                  return weekendColors[labels.indexOf(year)]
+                } else {
+                  return weekdayColors[labels.indexOf(year)]
+                }
               },
               borderWidth: 0
             }
