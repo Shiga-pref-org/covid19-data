@@ -104,11 +104,13 @@ export default {
       } else {
         const { datasets } = this.chartData[this.dataKind]
         const lastData = datasets[datasets.length - 1]
+        const [, month, dateDay] = lastData.label.split(' vs. ')[1].split('/')
+        const date = dateDay.replace(/\(.\)/g, '')
 
         return {
           lText: lastData.data[1].toLocaleString(),
           sText: this.$t('{date} 前年の同時期との比較: {percent}%', {
-            date: lastData.label,
+            date: `${month}/${date}`,
             percent: Math.round((100 * lastData.data[1]) / lastData.data[0])
           }),
           unit: this.$t('台')
@@ -124,6 +126,15 @@ export default {
         }
       } else {
         const { datasets, labels } = this.chartData[this.dataKind]
+
+        const determinColor = arg => {
+          const {
+            dataset: { label: year }
+          } = arg
+          const weekdayColors = ['#c0e2f0', '#30b9f0']
+          return weekdayColors[labels.indexOf(year)]
+        }
+
         return {
           labels: datasets.map(d => `${d.label}`),
           datasets: labels.map((label, i) => {
@@ -131,49 +142,8 @@ export default {
               label,
               data: datasets.map(d => d.data[i]),
               fill: false,
-              borderColor: arg => {
-                const {
-                  // dataIndex,
-                  // datasetIndex,
-                  dataset: { label: year }
-                } = arg
-                const weekdayColors = ['#c0e2f0', '#30b9f0']
-                return weekdayColors[labels.indexOf(year)]
-              },
-
-              backgroundColor: arg => {
-                const {
-                  // dataIndex,
-                  // datasetIndex,
-                  dataset: { label: year }
-                } = arg
-                const weekdayColors = ['#c0e2f0', '#30b9f0']
-                return weekdayColors[labels.indexOf(year)]
-                // let isWeekend = false
-                // try {
-                //   const [month, date] = datasets[dataIndex].label
-                //     .split('/')
-                //     .map(x => parseInt(x, 10))
-                //   const day = moment()
-                //     .year(year)
-                //     .month(month - 1)
-                //     .date(date)
-                //     // 2019 vs 2020 の曜日のズレ
-                //     .add(datasetIndex === 0 ? 0 : -2, 'days')
-                //     .day()
-                //   isWeekend = day === 0 || day === 6
-                // } catch (err) {
-                //   // stand for Chart Update
-                // }
-                // const weekendColors = ['#f0c0e2', '#f030b9']
-                // const weekdayColors = ['#c0e2f0', '#30b9f0']
-
-                // if (this.dataKind === 'transition' && isWeekend) {
-                //   return weekendColors[labels.indexOf(year)]
-                // } else {
-                //   return weekdayColors[labels.indexOf(year)]
-                // }
-              },
+              borderColor: determinColor,
+              backgroundColor: determinColor,
               borderWidth: 0
             }
           })

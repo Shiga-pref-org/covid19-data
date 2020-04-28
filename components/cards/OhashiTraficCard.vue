@@ -14,9 +14,7 @@
 <i18n src="./OhashiTrafic.i18n.json"></i18n>
 
 <script>
-import moment from 'moment'
 import Data from '@/data/data.json'
-import OhashiData from '@/data/ohashi.json'
 import OhashiTraficBarChart from '@/components/OhashiTraficBarChart.vue'
 
 export default {
@@ -27,17 +25,8 @@ export default {
     // ohashiGraph ツールチップ title文字列
     // this.$t を使うため ohashiGraphOption の外側へ
     const ohashiGraphTooltipTitle = (tooltipItems, _) => {
-      const year = OhashiData.transition.labels[tooltipItems[0].datasetIndex]
-      const [month, date] = tooltipItems[0].label.split('/')
-      // TODO: locale がハードコードされている
-      moment.locale('ja')
-      const label = moment()
-        .year(year)
-        .month(month - 1)
-        .date(date)
-        // 2019 と 2020 のずれ
-        .add(tooltipItems[0].datasetIndex === 1 ? 0 : 2, 'days')
-        .format('YYYY/M/D(ddd)')
+      const [label2019, label2020] = tooltipItems[0].label.split(' vs. ')
+      const label = tooltipItems[0].datasetIndex === 0 ? label2019 : label2020
 
       return this.$t('日付: {duration}', {
         duration: this.$t(label)
@@ -54,7 +43,7 @@ export default {
 
     const data = {
       Data,
-      ohashiGraph: OhashiData,
+      ohashiGraph: Data.ohashi,
       ohashiGraphOption: {
         responsive: true,
         legend: {
@@ -84,7 +73,10 @@ export default {
                 maxRotation: 0,
                 minRotation: 0,
                 callback: label => {
-                  return label.split('/')[1]
+                  return label
+                    .split(' vs. ')[1]
+                    .split('/')[2]
+                    .replace(/\(.\)/, '')
                 }
               }
             },
