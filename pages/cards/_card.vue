@@ -15,6 +15,9 @@
     <querents-number-card
       v-else-if="this.$route.params.card == 'number-of-querents'"
     />
+    <ohashi-trafic-card
+      v-else-if="this.$route.params.card == 'ohashi-trafic'"
+    />
     <line-invitation-card
       v-else-if="this.$route.params.card == 'line-invitation'"
     />
@@ -111,6 +114,7 @@ import ConfirmedCasesAttributesCard from '@/components/cards/ConfirmedCasesAttri
 import ConsultsNumberCard from '@/components/cards/ConsultsNumberCard.vue'
 import TestsNumberCard from '@/components/cards/TestsNumberCard.vue'
 import QuerentsNumberCard from '@/components/cards/QuerentsNumberCard.vue'
+import OhashiTraficCard from '@/components/cards/OhashiTraficCard.vue'
 import LineInvitationCard from '@/components/cards/LineInvitationCard.vue'
 
 // import ConfirmedCasesDetailsCard from '@/components/cards/ConfirmedCasesDetailsCard.vue'
@@ -125,6 +129,7 @@ export default {
     ConsultsNumberCard,
     TestsNumberCard,
     QuerentsNumberCard,
+    OhashiTraficCard,
     LineInvitationCard
 
     // ConfirmedCasesDetailsCard,
@@ -150,6 +155,10 @@ export default {
       case 'number-of-tests':
         title = this.$t('PCR検査実施件数')
         updatedAt = Data.tests.date
+        break
+      case 'ohashi-trafic':
+        title = this.$t('琵琶湖大橋通行台数')
+        updatedAt = '2020/04/26' // TODO: ダミーデータ
         break
       case 'line-invitation':
         title = this.$t(

@@ -255,6 +255,146 @@ const othersPromise = new Promise(resolve => {
   })
 })
 
+const ohashiUrl =
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vQkSimAq6YKVyhqHy7wyEvL6-TeGmiNntRhP3iK5041mD900GYcjUKylMZIAJEIZzew9pCGfQ1AA-Ge/pub?gid=1888109747&single=true&output=csv'
+
+const ohashiPromise = new Promise(resolve => {
+  getCSV(ohashiUrl).then(items => {
+    const transitionData = []
+
+    const years = Object.keys(items[0])
+      .map(year => parseInt(year, 10))
+      .filter(year => !Number.isNaN(year))
+
+    years.sort()
+
+    // Atomic に分解
+    for (const item of items) {
+      const monthdate = item['日付']
+      years.forEach(year => {
+        const value = parseInt(item[year], 10)
+        if (Number.isNaN(value)) {
+        } else {
+          const [month, date] = monthdate
+            .split('/')
+            .map(flagment => parseInt(flagment, 10))
+          const dateObject = moment()
+            .year(year)
+            .month(month - 1)
+            .date(date)
+          const day = dateObject.format('ddd')
+          const dayNumber = dateObject.day()
+
+          const nthDayOfTheYear = dateObject.dayOfYear()
+          transitionData.push({
+            value,
+            year,
+            month,
+            date,
+            day,
+            dayNumber,
+            nthDay: Math.floor((nthDayOfTheYear - 1) / 7) + 1,
+            nthDayOfTheYear
+          })
+        }
+      })
+    }
+
+    // 移動平均の計算
+    const averageData = []
+    for (let index = 0; index < transitionData.length; index++) {
+      if (index < 6) {
+        continue
+      } else {
+        const start = transitionData[index - 6]
+        const end = transitionData[index]
+        averageData.push({
+          year: end.year,
+          month: end.month,
+          date: end.date,
+          nthDayOfTheYear: end.nthDayOfTheYear,
+          start: `${start.year}/${start.month}/${start.date}`,
+          end: `${end.year}/${end.month}/${end.date}`,
+          value:
+            (transitionData[index - 6].value +
+              transitionData[index - 5].value +
+              transitionData[index - 4].value +
+              transitionData[index - 3].value +
+              transitionData[index - 2].value +
+              transitionData[index - 1].value +
+              transitionData[index].value) /
+            7
+        })
+      }
+    }
+
+    // 移動平均をnthDayOfTheYear で突き合わせて整理
+    const averageYearMap = averageData.reduce((prev, item) => {
+      const { year, nthDayOfTheYear } = item
+      try {
+        prev[nthDayOfTheYear][year] = item
+      } catch (error) {
+        prev[nthDayOfTheYear] = {
+          [year]: item
+        }
+      }
+      return prev
+    }, {})
+
+    const averageDatasets = Object.keys(averageYearMap)
+      .map(nthDayOfTheYear => {
+        const mapData = averageYearMap[nthDayOfTheYear]
+        if (Object.keys(mapData).length !== years.length) {
+          return false
+        } else {
+          const data = []
+          let label = ''
+          for (const year of years) {
+            const item = mapData[year]
+            data.push(item.value)
+            label = item.end
+          }
+          return { data, label }
+        }
+      })
+      .filter(x => !!x)
+
+    // データを年ごとに突き合わせて整理
+    // transitionData = transitionData.reduce((prev, item) => {
+    //   const key = item.dayNumber + item.nthDay
+    //   if (prev[key]) {
+    //     prev[key].data.push(item)
+    //   } else {
+    //     prev[key] = {
+    //       label:
+    //     }
+    //   }
+    //   return prev
+    // }, {})
+
+    // averageData = averageData.reduce((prev, item) => {
+    //   if (prev[item.year]) {
+    //     prev[item.year].push(item)
+    //   } else {
+    //     prev[item.year] = [item]
+    //   }
+    //   return prev
+    // }, {})
+
+    data.ohashi = {
+      transition: {
+        datasets: transitionData,
+        labels: years
+      },
+      averages: {
+        datasets: averageDatasets,
+        labels: years
+      }
+    }
+    resolve()
+  })
+})
+
 Promise.all([
   countPromise,
   attrPromise,
@@ -262,6 +402,7 @@ Promise.all([
   testsPromise,
   querentsPromise,
   generalQuerentsPromise,
+  ohashiPromise,
   othersPromise
 ]).then(() => {
   data.lastUpdate = moment().format('YYYY\\/MM\\/DD HH:mm')

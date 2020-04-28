@@ -13,6 +13,7 @@
       <tests-number-card />
       <querents-number-card />
       <general-querents-number-card />
+      <ohashi-trafic-card />
       <line-invitation-card />
     </v-row>
   </div>
@@ -33,6 +34,7 @@ import ConsultsNumberCard from '@/components/cards/ConsultsNumberCard'
 import TestsNumberCard from '@/components/cards/TestsNumberCard'
 import QuerentsNumberCard from '@/components/cards/QuerentsNumberCard'
 import GeneralQuerentsNumberCard from '@/components/cards/GeneralQuerentsNumberCard'
+import OhashiTraficCard from '@/components/cards/OhashiTraficCard'
 import LineInvitationCard from '@/components/cards/LineInvitationCard'
 
 export default {
@@ -45,6 +47,7 @@ export default {
     TestsNumberCard,
     QuerentsNumberCard,
     GeneralQuerentsNumberCard,
+    OhashiTraficCard,
     LineInvitationCard
   },
   data() {
