@@ -18,11 +18,8 @@
     </template>
 
     <ul>
-      <li v-if="dataKind == 'transition'" class="ohashi-note">
+      <li class="ohashi-note">
         {{ $t('日付は2020年を基準にして両年の同じ曜日を表示しています') }}
-      </li>
-      <li v-if="dataKind == 'average'" class="ohashi-note">
-        {{ $t('日付は2020年を基準にして表示しています') }}
       </li>
       <li v-if="dataKind == 'average'" class="ohashi-note">
         {{ $t('値は過去7日間の通行台数の平均を示します') }}

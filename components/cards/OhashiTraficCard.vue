@@ -14,6 +14,7 @@
 <i18n src="./OhashiTrafic.i18n.json"></i18n>
 
 <script>
+import moment from 'moment'
 import Data from '@/data/data.json'
 import OhashiData from '@/data/ohashi.json'
 import OhashiTraficBarChart from '@/components/OhashiTraficBarChart.vue'
@@ -25,9 +26,17 @@ export default {
   data() {
     // ohashiGraph ツールチップ title文字列
     // this.$t を使うため ohashiGraphOption の外側へ
-    // TODO: 系列を判別して表示したい
     const ohashiGraphTooltipTitle = (tooltipItems, _) => {
-      const label = tooltipItems[0].label
+      const year = OhashiData.transition.labels[tooltipItems[0].datasetIndex]
+      const [month, date] = tooltipItems[0].label.split('/')
+      const label = moment()
+        .year(year)
+        .month(month - 1)
+        .date(date)
+        // 2019 と 2020 のずれ
+        .add(tooltipItems[0].datasetIndex === 0 ? 0 : -2, 'days')
+        .format('YYYY/MM/DD')
+
       return this.$t('日付: {duration}', {
         duration: this.$t(label)
       })
