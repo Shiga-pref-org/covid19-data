@@ -29,13 +29,15 @@ export default {
     const ohashiGraphTooltipTitle = (tooltipItems, _) => {
       const year = OhashiData.transition.labels[tooltipItems[0].datasetIndex]
       const [month, date] = tooltipItems[0].label.split('/')
+      // TODO: locale がハードコードされている
+      moment.locale('ja')
       const label = moment()
         .year(year)
         .month(month - 1)
         .date(date)
         // 2019 と 2020 のずれ
-        .add(tooltipItems[0].datasetIndex === 0 ? -2 : 0, 'days')
-        .format('YYYY/MM/DD')
+        .add(tooltipItems[0].datasetIndex === 1 ? 0 : 2, 'days')
+        .format('YYYY/M/D(ddd)')
 
       return this.$t('日付: {duration}', {
         duration: this.$t(label)
