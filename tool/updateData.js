@@ -260,136 +260,50 @@ const ohashiUrl =
 
 const ohashiPromise = new Promise(resolve => {
   getCSV(ohashiUrl).then(items => {
-    const transitionData = []
+    const transitionDatasets = items
+      .filter(
+        item =>
+          !Number.isNaN(parseInt(item['2020年通行台数'], 10)) &&
+          !Number.isNaN(parseInt(item['2019年通行台数'], 10))
+      )
+      .map(item => ({
+        data: [
+          parseInt(item['2019年通行台数'], 10),
+          parseInt(item['2020年通行台数'], 10)
+        ],
+        label: `${item['2019年日付']} vs. ${item['2020年日付']}`
+      }))
 
-    const years = Object.keys(items[0])
-      .map(year => parseInt(year, 10))
-      .filter(year => !Number.isNaN(year))
+    const averageDatasets = items
+      .filter(
+        item =>
+          !Number.isNaN(parseInt(item['2020年移動平均'], 10)) &&
+          !Number.isNaN(parseInt(item['2019年移動平均'], 10))
+      )
+      .map(item => ({
+        data: [
+          parseInt(item['2019年移動平均'], 10),
+          parseInt(item['2020年移動平均'], 10)
+        ],
+        label: `${item['2019年日付']} vs. ${item['2020年日付']}`
+      }))
 
-    years.sort()
-
-    // Atomic に分解
-    for (const item of items) {
-      const monthdate = item['日付']
-      years.forEach(year => {
-        const value = parseInt(item[year], 10)
-        if (Number.isNaN(value)) {
-        } else {
-          const [month, date] = monthdate
-            .split('/')
-            .map(flagment => parseInt(flagment, 10))
-          const dateObject = moment()
-            .year(year)
-            .month(month - 1)
-            .date(date)
-          const day = dateObject.format('ddd')
-          const dayNumber = dateObject.day()
-
-          const nthDayOfTheYear = dateObject.dayOfYear()
-          transitionData.push({
-            value,
-            year,
-            month,
-            date,
-            day,
-            dayNumber,
-            nthDay: Math.floor((nthDayOfTheYear - 1) / 7) + 1,
-            nthDayOfTheYear
-          })
-        }
-      })
-    }
-
-    // 移動平均の計算
-    const averageData = []
-    for (let index = 0; index < transitionData.length; index++) {
-      if (index < 6) {
-        continue
-      } else {
-        const start = transitionData[index - 6]
-        const end = transitionData[index]
-        averageData.push({
-          year: end.year,
-          month: end.month,
-          date: end.date,
-          nthDayOfTheYear: end.nthDayOfTheYear,
-          start: `${start.year}/${start.month}/${start.date}`,
-          end: `${end.year}/${end.month}/${end.date}`,
-          value:
-            (transitionData[index - 6].value +
-              transitionData[index - 5].value +
-              transitionData[index - 4].value +
-              transitionData[index - 3].value +
-              transitionData[index - 2].value +
-              transitionData[index - 1].value +
-              transitionData[index].value) /
-            7
-        })
-      }
-    }
-
-    // 移動平均をnthDayOfTheYear で突き合わせて整理
-    const averageYearMap = averageData.reduce((prev, item) => {
-      const { year, nthDayOfTheYear } = item
-      try {
-        prev[nthDayOfTheYear][year] = item
-      } catch (error) {
-        prev[nthDayOfTheYear] = {
-          [year]: item
-        }
-      }
-      return prev
-    }, {})
-
-    const averageDatasets = Object.keys(averageYearMap)
-      .map(nthDayOfTheYear => {
-        const mapData = averageYearMap[nthDayOfTheYear]
-        if (Object.keys(mapData).length !== years.length) {
-          return false
-        } else {
-          const data = []
-          let label = ''
-          for (const year of years) {
-            const item = mapData[year]
-            data.push(item.value)
-            label = item.end
-          }
-          return { data, label }
-        }
-      })
-      .filter(x => !!x)
-
-    // データを年ごとに突き合わせて整理
-    // transitionData = transitionData.reduce((prev, item) => {
-    //   const key = item.dayNumber + item.nthDay
-    //   if (prev[key]) {
-    //     prev[key].data.push(item)
-    //   } else {
-    //     prev[key] = {
-    //       label:
-    //     }
-    //   }
-    //   return prev
-    // }, {})
-
-    // averageData = averageData.reduce((prev, item) => {
-    //   if (prev[item.year]) {
-    //     prev[item.year].push(item)
-    //   } else {
-    //     prev[item.year] = [item]
-    //   }
-    //   return prev
-    // }, {})
+    const lastTransitionData = transitionDatasets[
+      transitionDatasets.length - 1
+    ].label
+      .split(' vs. ')[1]
+      .replace(/\(.\)/, '')
 
     data.ohashi = {
       transition: {
-        datasets: transitionData,
-        labels: years
+        datasets: transitionDatasets,
+        labels: [2019, 2020]
       },
-      averages: {
+      average: {
         datasets: averageDatasets,
-        labels: years
-      }
+        labels: [2019, 2020]
+      },
+      date: lastTransitionData
     }
     resolve()
   })
