@@ -22,10 +22,13 @@
         {{ $t('赤色の指標は土日の通行台数を示します') }}
       </li>
       <li v-if="dataKind == 'transition'" class="ohashi-note">
-        {{ $t('日付は2020年を基準にして両年の同じ曜日を示しています') }}
+        {{ $t('日付は2019年を基準にして両年の同じ曜日を表示しています') }}
       </li>
       <li v-if="dataKind == 'average'" class="ohashi-note">
-        {{ $t('※値は過去7日間の通行台数の平均を示します') }}
+        {{ $t('日付は2020年を基準にして表示しています') }}
+      </li>
+      <li v-if="dataKind == 'average'" class="ohashi-note">
+        {{ $t('値は過去7日間の通行台数の平均を示します') }}
       </li>
     </ul>
   </data-view>
@@ -148,7 +151,7 @@ export default {
                     .month(month - 1)
                     .date(date)
                     // 2019 vs 2020 の曜日のズレ
-                    .add(datasetIndex === 0 ? 2 : 0, 'days')
+                    .add(datasetIndex === 0 ? 0 : -2, 'days')
                     .day()
                   isWeekend = day === 0 || day === 6
                 } catch (err) {
