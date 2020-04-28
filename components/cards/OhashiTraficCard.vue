@@ -34,7 +34,7 @@ export default {
         .month(month - 1)
         .date(date)
         // 2019 と 2020 のずれ
-        .add(tooltipItems[0].datasetIndex === 0 ? 0 : -2, 'days')
+        .add(tooltipItems[0].datasetIndex === 0 ? -2 : 0, 'days')
         .format('YYYY/MM/DD')
 
       return this.$t('日付: {duration}', {
