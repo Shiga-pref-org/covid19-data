@@ -55,7 +55,8 @@ export default {
             e.currentTarget.style.cursor = 'default'
           },
           labels: {
-            boxWidth: 20
+            boxWidth: 20,
+            useLineStyle: true
           }
         },
         scales: {

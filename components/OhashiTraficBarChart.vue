@@ -3,7 +3,7 @@
     <template v-slot:button>
       <data-selector-2 v-model="dataKind" :target-id="chartId" />
     </template>
-    <bar
+    <line-chart
       :chart-id="chartId"
       :chart-data="displayData"
       :options="chartOption"
@@ -56,7 +56,7 @@
 </style>
 
 <script>
-import moment from 'moment'
+// import moment from 'moment'
 import DataView from '@/components/DataView.vue'
 import DataSelector2 from '@/components/DataSelector2.vue'
 import DataViewBasicInfoPanel from '@/components/DataViewBasicInfoPanel.vue'
@@ -112,7 +112,7 @@ export default {
         const lastData = datasets[datasets.length - 1]
 
         return {
-          lText: lastData.data[0].toLocaleString(),
+          lText: lastData.data[1].toLocaleString(),
           sText: this.$t('{date} 前年の同時期との比較: {percent}%', {
             date: lastData.label,
             percent: Math.round((100 * lastData.data[1]) / lastData.data[0])
@@ -136,35 +136,49 @@ export default {
             return {
               label,
               data: datasets.map(d => d.data[i]),
-              backgroundColor: ({
-                dataIndex,
-                datasetIndex,
-                dataset: { label: year }
-              }) => {
-                let isWeekend = false
-                try {
-                  const [month, date] = datasets[dataIndex].label
-                    .split('/')
-                    .map(x => parseInt(x, 10))
-                  const day = moment()
-                    .year(year)
-                    .month(month - 1)
-                    .date(date)
-                    // 2019 vs 2020 の曜日のズレ
-                    .add(datasetIndex === 0 ? 0 : -2, 'days')
-                    .day()
-                  isWeekend = day === 0 || day === 6
-                } catch (err) {
-                  // stand for Chart Update
-                }
-                const weekendColors = ['#f0c0e2', '#f030b9']
+              fill: false,
+              borderColor: arg => {
+                const {
+                  // dataIndex,
+                  // datasetIndex,
+                  dataset: { label: year }
+                } = arg
                 const weekdayColors = ['#c0e2f0', '#30b9f0']
+                return weekdayColors[labels.indexOf(year)]
+              },
 
-                if (this.dataKind === 'transition' && isWeekend) {
-                  return weekendColors[labels.indexOf(year)]
-                } else {
-                  return weekdayColors[labels.indexOf(year)]
-                }
+              backgroundColor: arg => {
+                const {
+                  // dataIndex,
+                  // datasetIndex,
+                  dataset: { label: year }
+                } = arg
+                const weekdayColors = ['#c0e2f0', '#30b9f0']
+                return weekdayColors[labels.indexOf(year)]
+                // let isWeekend = false
+                // try {
+                //   const [month, date] = datasets[dataIndex].label
+                //     .split('/')
+                //     .map(x => parseInt(x, 10))
+                //   const day = moment()
+                //     .year(year)
+                //     .month(month - 1)
+                //     .date(date)
+                //     // 2019 vs 2020 の曜日のズレ
+                //     .add(datasetIndex === 0 ? 0 : -2, 'days')
+                //     .day()
+                //   isWeekend = day === 0 || day === 6
+                // } catch (err) {
+                //   // stand for Chart Update
+                // }
+                // const weekendColors = ['#f0c0e2', '#f030b9']
+                // const weekdayColors = ['#c0e2f0', '#30b9f0']
+
+                // if (this.dataKind === 'transition' && isWeekend) {
+                //   return weekendColors[labels.indexOf(year)]
+                // } else {
+                //   return weekdayColors[labels.indexOf(year)]
+                // }
               },
               borderWidth: 0
             }
