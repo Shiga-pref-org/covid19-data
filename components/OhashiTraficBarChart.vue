@@ -19,9 +19,6 @@
 
     <ul>
       <li v-if="dataKind == 'transition'" class="ohashi-note">
-        {{ $t('赤色の指標は土日の通行台数を示します') }}
-      </li>
-      <li v-if="dataKind == 'transition'" class="ohashi-note">
         {{ $t('日付は2019年を基準にして両年の同じ曜日を表示しています') }}
       </li>
       <li v-if="dataKind == 'average'" class="ohashi-note">
