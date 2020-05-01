@@ -7,9 +7,9 @@
 
 
       <ul class="list_01">
-        <li><nuxt-link to="01_01#s01">収入が減っている</nuxt-link></li>
-        <li><nuxt-link to="02_01#s01">家賃が払えない</nuxt-link></li>
-        <li><nuxt-link to="03_01#s01">学費・仕送り<br>の不安がある</nuxt-link></li>
+        <li><nuxt-link to="/support/01_01#s01">収入が減っている</nuxt-link></li>
+        <li><nuxt-link to="/support/02_01#s01">家賃が払えない</nuxt-link></li>
+        <li><nuxt-link to="/support/03_01#s01">学費・仕送り<br>の不安がある</nuxt-link></li>
         <li><a href="#s01" class="current">手元に<br>生活資金がない</a></li>
       </ul>
 

@@ -7,19 +7,19 @@
 
 
       <ul class="list_01">
-        <li><nuxt-link to="01_01#s01" class="current">収入が減っている</nuxt-link></li>
-        <li><nuxt-link to="02_01#s01">家賃が払えない</nuxt-link></li>
-        <li><nuxt-link to="03_01#s01">学費・仕送り<br>の不安がある</nuxt-link></li>
-        <li><nuxt-link to="04_01#s01">手元に<br>生活資金がない</nuxt-link></li>
+        <li><nuxt-link to="/support/01_01#s01" class="current">収入が減っている</nuxt-link></li>
+        <li><nuxt-link to="/support/02_01#s01">家賃が払えない</nuxt-link></li>
+        <li><nuxt-link to="/support/03_01#s01">学費・仕送り<br>の不安がある</nuxt-link></li>
+        <li><nuxt-link to="/support/04_01#s01">手元に<br>生活資金がない</nuxt-link></li>
       </ul>
 
       <h3 id="s01" class="ttl_01">《 収入が減っている 》</h3>
       <ul class="list_02">
-        <li><nuxt-link to="01_01#s02"><span class="subdirectory-arrow-right"></span><p>売上が落ち込んでいる</p></nuxt-link></li>
-        <li><nuxt-link to="01_02#s02"><span class="subdirectory-arrow-right"></span><p>公共料金の支払いを延納したい</p></nuxt-link></li>
+        <li><nuxt-link to="/support/01_01#s02"><span class="subdirectory-arrow-right"></span><p>売上が落ち込んでいる</p></nuxt-link></li>
+        <li><nuxt-link to="/support/01_02#s02"><span class="subdirectory-arrow-right"></span><p>公共料金の支払いを延納したい</p></nuxt-link></li>
         <li><a href="#s02"><span class="subdirectory-arrow-right"></span><p>納税の猶予・免除の手続をしたい</p></a></li>
-        <li><nuxt-link to="01_04#s02"><span class="subdirectory-arrow-right"></span><p>コロナウィルスに感染してしまった</p></nuxt-link></li>
-        <li><nuxt-link to="01_05#s02"><span class="subdirectory-arrow-right"></span><p>会社の都合で休業・失業して手元に現金がない</p></nuxt-link></li>
+        <li><nuxt-link to="/support/01_04#s02"><span class="subdirectory-arrow-right"></span><p>コロナウィルスに感染してしまった</p></nuxt-link></li>
+        <li><nuxt-link to="/support/01_05#s02"><span class="subdirectory-arrow-right"></span><p>会社の都合で休業・失業して手元に現金がない</p></nuxt-link></li>
       </ul>
 
 

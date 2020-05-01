@@ -57,7 +57,7 @@ const main = async () => {
   for (let index = 0; index < htmls.length; index++) {
     const html = htmls[index].replace(
       /<a href="support(.+)\.html(.+)">(.+)<\/a>/g,
-      (_, p1, p2, p3) => `<nuxt-link to="${p1}${p2}">${p3}</nuxt-link>`
+      (_, p1, p2, p3) => `<nuxt-link to="/support/${p1}${p2}">${p3}</nuxt-link>`
     )
     const pageTitle = pageTitles[index]
     const vue = vueTemplate.replace('{{html}}', html)
