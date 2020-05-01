@@ -42,7 +42,7 @@ const vueTemplate = `<template>{{html}}</template>
 <style src="./support.css"></style>`
 
 const main = async () => {
-  const [, style] = await Promise.all([
+  const [style] = await Promise.all([
     // request(scriptUrl),
     request(styleUrl)
   ])
