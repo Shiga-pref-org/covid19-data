@@ -16,7 +16,7 @@
       <h3 id="s01" class="ttl_01">《 家賃が払えない 》</h3>
       <ul class="list_02">
         <li><a href="#s02"><span class="subdirectory-arrow-right"></span><p>家賃の支払いを支援してほしい</p></a></li>
-        <li><nuxt-link to="/support/02_02#s02"><span class="subdirectory-arrow-right"></span><p>住宅を確保してほしい</p></nuxt-link></li>
+        <!-- <li><nuxt-link to="/support/02_02#s02"><span class="subdirectory-arrow-right"></span><p>住宅を確保してほしい</p></nuxt-link></li> -->
         <li class="nodata"></li>
         <li class="nodata"></li>
         <li class="nodata"></li>
