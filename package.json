@@ -21,7 +21,7 @@
         "clean-hardsource": "rimraf ./node_modules/.cache/hard-source",
         "updateData": "node tool/updateData.js",
         "clearCache": "rm -rf node_modules/.cache 2> /dev/null",
-        "updateFlow": "npm run clearCache && node tool/update-flow.js"
+        "updateFlow": "npm run clearCache && node tool/updateFlow.js"
     },
     "lint-staged": {
         "*.{js,ts,css,vue}": [

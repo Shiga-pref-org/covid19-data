@@ -33,8 +33,8 @@ const templateUrls = {
     'https://raw.githubusercontent.com/Shiga-pref-org/covid19-flow/master/templates/contents/support04_01.html'
 }
 
-const scriptUrl =
-  'https://raw.githubusercontent.com/Shiga-pref-org/covid19-flow/master/docs/support.js'
+// const scriptUrl =
+//   'https://raw.githubusercontent.com/Shiga-pref-org/covid19-flow/master/docs/support.js'
 const styleUrl =
   'https://raw.githubusercontent.com/Shiga-pref-org/covid19-flow/master/docs/support.css'
 
@@ -42,8 +42,8 @@ const vueTemplate = `<template>{{html}}</template>
 <style src="./support.css"></style>`
 
 const main = async () => {
-  const [script, style] = await Promise.all([
-    request(scriptUrl),
+  const [, style] = await Promise.all([
+    // request(scriptUrl),
     request(styleUrl)
   ])
 
@@ -60,9 +60,8 @@ const main = async () => {
       (_, p1, p2, p3) => `<nuxt-link to="${p1}${p2}">${p3}</nuxt-link>`
     )
     const pageTitle = pageTitles[index]
-    const vue = vueTemplate
-      .replace('{{html}}', html)
-      .replace('{{script}}', script)
+    const vue = vueTemplate.replace('{{html}}', html)
+    // .replace('{{script}}', script)
 
     await fs.writeFile(`./pages/support/${pageTitle}.vue`, vue)
   }

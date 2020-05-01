@@ -84,14 +84,6 @@ const config: Configuration = {
         rel: 'stylesheet',
         href: 'https://use.fontawesome.com/releases/v5.6.1/css/all.css'
       }
-    ],
-    script: [
-      {
-        hid: 'jquery',
-        src:
-          'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js',
-        type: 'text/javascript'
-      }
     ]
   },
   /*
