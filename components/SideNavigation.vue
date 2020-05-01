@@ -113,12 +113,11 @@ export default {
           title: this.$t('県内の最新感染動向'),
           link: this.localePath('/')
         },
-        /* {
-          icon: 'covid',
-          title: this.$t('新型コロナウイルス感染症が心配なときに'),
-          link: this.localePath('/flow'),
-          divider: true
-        }, */
+        {
+          icon: 'mdi-check',
+          title: this.$t('新型コロナウイルス感染症に関する支援制度'),
+          link: this.localePath('/support/01_01')
+        },
         {
           icon: 'parent',
           title: this.$t('教育委員会からのお知らせ'),

@@ -5,6 +5,7 @@
       :title="headerItem.title"
       :date="headerItem.date"
     />
+    <hero-link class="mb-4" />
     <whats-new class="mb-4" :items="newsItems" />
     <v-row class="DataBlock">
       <confirmed-cases-number-card />
@@ -27,6 +28,7 @@ import WhatsNew from '@/components/WhatsNew.vue'
 import Data from '@/data/data.json'
 
 import News from '@/data/news.json'
+import HeroLink from '@/components/cards/HeroLink.vue'
 
 import ConfirmedCasesNumberCard from '@/components/cards/ConfirmedCasesNumberCard.vue'
 import ConfirmedCasesAttributesCard from '@/components/cards/ConfirmedCasesAttributesCard.vue'
@@ -40,6 +42,7 @@ import LineInvitationCard from '@/components/cards/LineInvitationCard'
 export default {
   components: {
     PageHeader,
+    HeroLink,
     WhatsNew,
     ConfirmedCasesNumberCard,
     ConfirmedCasesAttributesCard,
