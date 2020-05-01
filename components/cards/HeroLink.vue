@@ -8,13 +8,6 @@
         {{ $t('新型コロナウィルス感染症に関する支援制度') }}
       </nuxt-link>
     </h3>
-    <p class="HeroLink-body">
-      {{
-        $t(
-          '新型コロナウィルス感染症での困窮に対する公的な支援ついて案内しています。'
-        )
-      }}
-    </p>
   </div>
 </template>
 
@@ -34,10 +27,6 @@ export default {
   @include card-container();
   padding: 10px;
   margin-bottom: 20px;
-
-  & .HeroLink-body {
-    margin-left: 1px;
-  }
 }
 
 .HeroLink-heading {
