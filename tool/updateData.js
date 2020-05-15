@@ -55,14 +55,28 @@ const countPromise = new Promise(resolve => {
         'T08:00:00.000Z'
 
       e['小計'] = Number(e['小計']) // 型を変えておかないと+演算子が連結と解釈される
+      e['陽性患者数小計'] = e['小計']
       e['治療終了者数小計'] = Number(e['治療終了者数小計'])
+      e['現在患者数小計'] = e['小計'] - e['治療終了者数小計']
     })
 
+    const date = moment().format('YYYY\\/MM\\/DD HH:mm')
+
     const patientsSummary = {}
-    patientsSummary.data = res
-    patientsSummary.date = moment().format('YYYY\\/MM\\/DD HH:mm')
+    patientsSummary.data = res.map(row => ({'小計': row['陽性患者数小計'], '日付': row['日付'] }))
+    patientsSummary.date = date
+
+    const currentSummary = {}
+    currentSummary.data = res.map(row => ({'小計': row['現在患者数小計'], '日付': row['日付'] }))
+    currentSummary.date = date
+
+    const treatedSummary = {}
+    treatedSummary.data = res.map(row => ({'小計': row['治療終了者数小計'], '日付': row['日付'] }))
+    treatedSummary.date = date
 
     data.patients_summary = patientsSummary
+    data.current_summary = currentSummary
+    data.treated_summary = treatedSummary
     resolve()
   })
 })
