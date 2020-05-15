@@ -55,6 +55,7 @@ const countPromise = new Promise(resolve => {
         'T08:00:00.000Z'
 
       e['小計'] = Number(e['小計']) // 型を変えておかないと+演算子が連結と解釈される
+      e['治療終了者数小計'] = Number(e['治療終了者数小計'])
     })
 
     const patientsSummary = {}
