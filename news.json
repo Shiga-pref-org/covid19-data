@@ -1,6 +1,11 @@
 {
   "newsItems": [
     {
+      "date": "6/9/2020",
+      "url": "https://www.pref.shiga.lg.jp/ippan/kurashi/ict/312529.html",
+      "text": "新型コロナウイルス感染拡大防止システム『もしサポ滋賀』について"
+    },
+    {
       "date": "6/6/2020",
       "url": "https://www.pref.shiga.lg.jp/ippan/bousai/sougo/312507.html",
       "text": "コロナとのつきあい方滋賀プラン 「注意ステージ」への移行について"
@@ -14,11 +19,6 @@
       "date": "4/21/2020",
       "url": "https://www.pref.shiga.lg.jp/ippan/shigotosangyou/syougyou/311523.html",
       "text": "感染拡大防止臨時支援金およびコールセンターについて"
-    },
-    {
-      "date": "4/16/2020",
-      "url": "https://www.pref.shiga.lg.jp/ippan/kenkouiryouhukushi/yakuzi/311451.html",
-      "text": "三日月知事から「滋賀1/5ルール」の提唱がありました。詳しくは動画をご覧ください。"
     }
   ]
 }
